@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package petstore;
+
+option go_package = "f-go/petstore;petstore";
+
+message Tag {
+    int64 id = 1;
+    string name = 2;
+};
+
+message Category {
+    int64 id = 1;
+    string name = 2;
+};
+
+message Pet {
+    int64 id = 1;
+    Category category = 2;
+    repeated string photo_urls = 3;
+    string name = 4;
+    repeated Tag tags = 5;
+
+    enum PetStatus {
+        UNSPECIFIED = 0;
+        AVAILABLE = 1;
+        PENDING = 2;
+        SOLD = 3;
+    };
+    PetStatus status = 6;
+};
