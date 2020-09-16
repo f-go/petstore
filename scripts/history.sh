@@ -15,3 +15,4 @@ mkdir -p pkg/petstore
 
 # Install Go required packages
 go get -u github.com/golang/protobuf/protoc-gen-go
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
