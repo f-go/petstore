@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 
-option go_package = "f-go/petstore;petstore";
+option go_package = "f-go/petstore/pkg/service;service";
 
 // OpenAPI/Swagger service description
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
@@ -72,7 +72,7 @@ message FindPetsByTagsParameters {
 }
 
 // Service definition
-service PetService {
+service PetstoreService {
   rpc ListPets(ListPetsRequest) returns (ListPetsResponse) {
     option (google.api.http) = {
       get: "/pets"

@@ -11,7 +11,7 @@ go mod init github.com/f-go/petstore
 # Create required directories
 mkdir -p api/protobuf
 mkdir -p api/openapi
-mkdir -p pkg/petstore
+mkdir -p pkg/service
 
 # Install Go required packages
 go get -u github.com/golang/protobuf/protoc-gen-go
