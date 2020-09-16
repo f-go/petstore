@@ -2,30 +2,130 @@ syntax = "proto3";
 
 package petstore;
 
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
 option go_package = "f-go/petstore;petstore";
 
-message Tag {
-    int64 id = 1;
-    string name = 2;
+// OpenAPI/Swagger service description
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  info: {
+      title: "Frank's Pet Store",
+      version: "0.0.1-alpha",
+      contact: {
+          name: "Frank Göldner",
+          url: "https://github.com/f-go/petstore",
+          email: "f-go@pm.me"
+      }
+  },
+  schemes: [HTTP, HTTPS],
+  consumes: "application/json;application/grpc",
+  produces: "application/json;application/grpc",
+  responses: {
+      key: "418",
+      value: {
+          description: "I'm a teapot.",
+          schema: {
+              json_schema: {
+                  type: STRING
+              }
+          }
+      }
+  }
 };
 
-message Category {
-    int64 id = 1;
-    string name = 2;
+
+// Entity definition
+enum PetStatus {
+  UNSPECIFIED = 0;
+  AVAILABLE = 1;
+  PENDING = 2;
+  SOLD = 3;
+};
+
+message PetCategory {
+  int64 id = 1;
+  string name = 2;
+};
+
+message Tag {
+  int64 id = 1;
+  string name = 2;
 };
 
 message Pet {
-    int64 id = 1;
-    Category category = 2;
-    repeated string photo_urls = 3;
-    string name = 4;
-    repeated Tag tags = 5;
-
-    enum PetStatus {
-        UNSPECIFIED = 0;
-        AVAILABLE = 1;
-        PENDING = 2;
-        SOLD = 3;
-    };
-    PetStatus status = 6;
+  int64 id = 1;
+  PetCategory category = 2;
+  repeated string photo_urls = 3;
+  string name = 4;
+  repeated Tag tags = 5;
+  PetStatus status = 6;
 };
+
+message FindPetsByStatusParameters {
+  repeated string status = 1;
+}
+
+message FindPetsByTagsParameters {
+  repeated string tags = 1;
+}
+
+// Service definition
+service PetService {
+  rpc ListPets(ListPetsRequest) returns (ListPetsResponse) {
+    option (google.api.http) = {
+      get: "/pets"
+    };
+  }
+
+  rpc GetPet(GetPetRequest) returns (Pet) {
+    option (google.api.http) = {
+      get: "/pets/{petId=id/*}"
+    };
+  }
+
+  rpc CreatePet(CreatePetRequest) returns (Pet) {
+    option (google.api.http) = {
+      post: "/pets"
+      body: "pet"
+    };
+  }
+
+  rpc UpdatePet(UpdatePetRequest) returns (Pet) {
+    option (google.api.http) = {
+      patch: "/pets/{pet.id=pets/*}"
+      body: "pet"
+    };
+  }
+
+  rpc DeletePet(DeletePetRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/pets/{petId=pets/*}"
+    };
+  }
+}
+
+message ListPetsRequest {
+  repeated PetStatus status = 1;
+}
+
+message ListPetsResponse {
+  repeated Pet pets = 1;
+}
+
+message GetPetRequest {
+  int64 petId = 1;
+}
+
+message CreatePetRequest {
+  Pet pet = 3;
+}
+
+message UpdatePetRequest {
+  Pet pet = 1;
+}
+
+message DeletePetRequest {
+  int64 petId = 1;
+}
