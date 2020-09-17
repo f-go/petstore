@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	gha "github.com/f-go/ratehub/pkg/server"
+	petstoreServer "github.com/f-go/petstore/pkg/server"
 )
 
 func main() {
-	if err := gha.RunServer(); err != nil {
+	if err := petstoreServer.RunServer(); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}

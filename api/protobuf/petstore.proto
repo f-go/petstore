@@ -20,6 +20,8 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
       }
   },
   schemes: [HTTP, HTTPS],
+  host: "localhost:8080",
+  base_path: "",
   consumes: "application/json;application/grpc",
   produces: "application/json;application/grpc",
   responses: {
@@ -81,7 +83,7 @@ service PetstoreService {
 
   rpc GetPet(GetPetRequest) returns (Pet) {
     option (google.api.http) = {
-      get: "/pets/{petId=id/*}"
+      get: "/pets/{id}"
     };
   }
 
@@ -94,14 +96,14 @@ service PetstoreService {
 
   rpc UpdatePet(UpdatePetRequest) returns (Pet) {
     option (google.api.http) = {
-      patch: "/pets/{pet.id=pets/*}"
+      patch: "/pets/{pet.id}"
       body: "pet"
     };
   }
 
   rpc DeletePet(DeletePetRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/pets/{petId=pets/*}"
+      delete: "/pets/{id}"
     };
   }
 }
@@ -115,7 +117,7 @@ message ListPetsResponse {
 }
 
 message GetPetRequest {
-  int64 petId = 1;
+  int64 id = 1;
 }
 
 message CreatePetRequest {
@@ -127,5 +129,5 @@ message UpdatePetRequest {
 }
 
 message DeletePetRequest {
-  int64 petId = 1;
+  int64 id = 1;
 }
