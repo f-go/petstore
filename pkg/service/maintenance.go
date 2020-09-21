@@ -22,10 +22,3 @@ func (s *MaintenanceService) Echo(ctx context.Context, req *EchoRequest) (*EchoR
 	return &EchoResponse{Feedback: "You sent: " + req.GetMessage()}, nil
 }
 
-func getPet() {
-
-}
-
-func GetPet() {
-
-}
