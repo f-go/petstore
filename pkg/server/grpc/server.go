@@ -13,7 +13,7 @@ import (
 )
 
 // ...
-func RunServer(ctx context.Context, service ps.PetstoreServiceServer, port string) error {
+func RunServer(ctx context.Context, service ps.PetstoreServiceServer, ms ps.MaintenanceServiceServer, port string) error {
 	listen, err := net.Listen("tcp", ":" + port)
 	if err != nil {
 		return err
@@ -22,6 +22,7 @@ func RunServer(ctx context.Context, service ps.PetstoreServiceServer, port strin
 	// register service
 	server := grpc.NewServer()
 	ps.RegisterPetstoreServiceServer(server, service)
+	ps.RegisterMaintenanceServiceServer(server, ms)
 
 	// graceful shutdown
 	c := make(chan os.Signal, 1)

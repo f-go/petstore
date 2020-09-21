@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package petstore;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option go_package = "f-go/petstore/pkg/service;service";
+
+
+message EchoRequest {
+  string message = 1;
+}
+
+message EchoResponse {
+  string feedback = 1;
+}
+
+service MaintenanceService {
+  rpc Ping (google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      get: "/ping"
+    };
+  }
+
+  rpc Echo (EchoRequest) returns (EchoResponse) {
+    option (google.api.http) = {
+      post: "/echo",
+      body: "*"
+    };
+  }
+}

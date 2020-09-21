@@ -23,6 +23,9 @@ func RunServer(ctx context.Context, grpcPort, httpPort string) error {
 	if err := ps.RegisterPetstoreServiceHandlerFromEndpoint(ctx, mux, ":" + grpcPort, opts); err != nil {
 		log.Fatalf("failed to start HTTP gateway: %v", err)
 	}
+	if err := ps.RegisterMaintenanceServiceHandlerFromEndpoint(ctx, mux, ":" + grpcPort, opts); err != nil {
+		log.Fatalf("failed to start HTTP gateway: %v", err)
+	}
 
 	srv := &http.Server{
 		Addr:    ":" + httpPort,

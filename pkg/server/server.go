@@ -13,11 +13,12 @@ import (
 // ...
 func RunServer() error {
 	ctx := context.Background()
-	service := petstore.NewPetstoreService()
+	petstoreService := petstore.NewPetstoreService()
+	maintenanceService := petstore.NewMaintenanceService()
 
 	// run HTTP gateway
 	go func() {
 		_ = rest.RunServer(ctx, "9090", "8080")
 	}()
-	return grpc.RunServer(ctx, service, "9090")
+	return grpc.RunServer(ctx, petstoreService, maintenanceService, "9090")
 }
